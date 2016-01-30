@@ -189,6 +189,7 @@ private:
 	double CMDN_bar;						
 	double Km_TRPN;
 	double Km_CMDN;
+
 	//Parameters whose value we need to store between beats
 	double d; 
 	double f;
@@ -200,9 +201,9 @@ private:
 	double m; 
 	double hh; 
 	double j; 
-	double Na_in;	//10;
-	double K_in;		//145;
-	double Ca_in, Ca_in_x;	//0.12E-3;
+	double Na_in; //10;
+	double K_in; //145;
+	double Ca_in, Ca_in_x; //0.12E-3;
 	double Ca_jsr;
 	double Ca_nsr;
 

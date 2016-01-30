@@ -151,7 +151,7 @@ void Faber_Rudy_2000::update(DefaultGUIModel::update_flags_t flag) {
 			break;
 
 		case MODIFY: // Called when modify button is hit                
-			// Update Paramters
+			// Update Parameters
 			modelRate = getParameter("Model Rate (Hz)").toInt();
 			gna = getParameter("gNa").toDouble();
 
@@ -182,7 +182,7 @@ void Faber_Rudy_2000::initialize() {
 	z_K = 1;
 
 	//Cell Geometry
-	pi = 3.141592;						
+	pi = 3.141592654;						
 	L = 0.01; //Length 100um (cm)
 	r = 0.0011; //Radius 11um (cm)
 	R_cg = 2; //Ratio of capacitive membrane area to gemometric membrane area
@@ -472,7 +472,7 @@ void Faber_Rudy_2000::solve() {
 	bf = (1-f_inf)/ tau_f;
 	f = f + ((af*(1-f))-(bf*f)) * DT;
 	f_Ca = 1/(1+ (Ca_in/Km_Ca));
-	//f_Ca = 1/(1+ pow((Ca_in/Km_Ca),1));
+	// f_Ca = 1/(1+ pow((Ca_in/Km_Ca),1));
 	I_Ca_bar = P_Ca * (z_Ca*z_Ca) * ((V*F*F)/(R*T)) * (g_Ca_in * Ca_in * fastEXP((z_Ca*V*F)/(R*T)) - g_Ca_out * Ca_out)/(fastEXP((z_Ca*V*F)/(R*T))-1);
 	I_Ca_L = d * f * f_Ca * I_Ca_bar; 
 
@@ -514,7 +514,7 @@ void Faber_Rudy_2000::solve() {
 	K1_s=aK1/(aK1+bK1);
 	I_K1=G_K1*K1_s*(V-E_K1);
 
-	//At I_K1 only fastEXP in, APD increased to 211 ms
+	// At I_K1 only fastEXP in, APD increased to 211 ms
 
 	//I_Kp
 	E_Kp=(R*T/F)*log(K_out/K_in);	//Note: E_Kp = E_K1	
@@ -572,7 +572,7 @@ void Faber_Rudy_2000::solve() {
 
 	on=1/(1+fastEXP((-tcicr+4)/tau_on));
 	off=(1-1/(1+fastEXP((-tcicr+4)/tau_off)));
-	magrel=1/(1+fastEXP(((I_Ca_ion_total)+5)/0.9));   //I_Ca_L -2*I_Na_Ca + I_p_Ca + I_Ca_T + I_Ca_b
+	magrel=1/(1+fastEXP(((I_Ca_ion_total)+5)/0.9)); //I_Ca_L -2*I_Na_Ca + I_p_Ca + I_Ca_T + I_Ca_b
 	I_rel = G_rel_bar*on*off*magrel*(Ca_jsr-Ca_in); 
 	tcicr=tcicr+DT;		
 
@@ -603,10 +603,7 @@ void Faber_Rudy_2000::solve() {
 	g_myo = sqrt(b_myo*b_myo-3*c_myo);
 
 	//Ca_in = (2*g_myo/3)*cos(acos(9*b_myo*c_myo-2*b_myo*b_myo*b_myo-27*d_myo)/(2*((b_myo*b_myo-3*c_myo)*sqrt(b_myo*b_myo-3*c_myo)))/3)-(b_myo/3);  //Original
-
-
 	//Ca_in = (2*g_myo/3)*cos(acos((9*b_myo*c_myo-2*b_myo*b_myo*b_myo-27*d_myo)/(2*((b_myo*b_myo-3*c_myo)*sqrt(b_myo*b_myo-3*c_myo))))/3)-(b_myo/3);  //Corina change
-
 
 	// Optimized Ca_in calculation
 	Ca_in_x = (9*b_myo*c_myo-2*b_myo*b_myo*b_myo-27*d_myo)/(2*((b_myo*b_myo-3*c_myo)*sqrt(b_myo*b_myo-3*c_myo)));
@@ -622,7 +619,6 @@ void Faber_Rudy_2000::solve() {
 	cosHolder = cosHolder - (static_cast<int>(floor(cosHolder2))*3.141592);
 	ilow = fabs(((acosHolder)-cos_num_min)/0.000001);
 	Ca_in = (2*g_myo/3) * cosHolder - (b_myo/3);
-
 
 	Ca_in_total_old = I_Ca_ion_total;
 	dCa_ion_total = dCa_ion_total_new; 
