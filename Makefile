@@ -1,9 +1,12 @@
+PLUGIN_NAME = faber_rudy_2000
 
-PLUGIN_NAME =  Faber_Rudy_2000
+HEADERS = faber-rudy.h \
+          include/RealTimeMath.h \
+          include/PowFast.hpp
 
-HEADERS = Faber_Rudy_2000.h
-
-SOURCES = Faber_Rudy_2000.cpp include/RealTimeMath.cpp include/PowFast.cpp
+SOURCES = faber-rudy.cpp \
+          include/RealTimeMath.cpp \
+          include/PowFast.cpp
 
 LIBS =
 
