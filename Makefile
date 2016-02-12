@@ -14,6 +14,12 @@ LIBS =
 
 include $(shell rtxi_plugin_config --pkgdata-dir)/Makefile.plugin_compile
 
-#clean::
-#	rm -f include/*.o
-#	rm -rf include/.libs
+clean:
+	rm -f $(OBJECTS)
+	rm -f moc_*
+	rm -f *.o
+	rm -f $(PLUGIN_NAME).la
+	rm -f $(PLUGIN_NAME).o
+	rm -rf .libs
+	rm -f include/*.o
+	rm -rf include/.libs
