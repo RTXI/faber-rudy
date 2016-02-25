@@ -52,7 +52,7 @@ static DefaultGUIModel::variable_t vars[] = {
 	   DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE, },
 	{ "Scale IpCa", "? Conductance Scaling Factor", 
 	   DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE, },
-	{ "Scale JSERCA", "JSERCA? Conductance Scaling Factor", 
+	{ "Scale JSERCA", "JSERCA Conductance Scaling Factor", 
 	   DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE, },
 	{ "INa", "Sodium Current", DefaultGUIModel::STATE , }
 };
