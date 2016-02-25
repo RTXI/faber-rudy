@@ -7,7 +7,7 @@
 
 <!--start-->
 
-Faber-Rudy guinea pig cardiomyocyte model. 
+The Faber-Rudy guinea pig cardiomyocyte model. Scaling parameters in the UI allow you to tweak model parameters within RTXI without editing the source code and recompiling. 
 
 **Reference:** 
 
@@ -25,6 +25,15 @@ Faber-Rudy guinea pig cardiomyocyte model.
 ####Parameters
 1. rate - rate of integration (Hz)
 2. gNa - sodium conductance
+3. Scale GNa - scaling factor for sodium conductance
+4. Scale GCaL - scaling factor for L-type calcium conductance
+5. Scale GCaT - scaling factor for T-type calcium conductance
+6. Scale GK1 - scaling factor for IK1 current
+7. Scale GKr - scaling factor for IKr current
+8. Scale GKs - scaling factor for IKs current
+9. Scale GKp - scaling factor for IKp current
+10. Scale IpCa - scaling factor for IpCa
+11. Scale JSERCA - scaling factor for JSERCA
 
 ####States
 1. INa - sodium current
