@@ -117,6 +117,17 @@ private:
 	double dK_in;
 	double I_Total;
 
+	//initial conditions taken from the LR code on the web
+	double scale_gna; 
+	double scale_I_Ca_L;
+	double scale_I_Ca_T;
+	double scale_I_Kr;
+	double scale_I_Ks;
+	double scale_I_K1;
+	double scale_I_Kp;
+	double scale_I_p_Ca;
+	double scale_I_up_bar; //?
+
 	double I_Na, E_Na, am, bm, ah, bh, aj, bj, mtau, htau, jtau, mss, hss, jss; //I_Na channel
 	double d_inf, f_inf, tau_d, tau_f, ad, bd, af, bf; //L-type Ca channel
 	double f_Ca, I_Ca_bar, I_Ca_L, I_Ca_K_bar, I_Ca_K, I_Ca_Na_bar, I_Ca_Na; //L-type Ca channel

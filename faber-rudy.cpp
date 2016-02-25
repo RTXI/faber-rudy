@@ -29,15 +29,32 @@ extern "C" Plugin::Object *createRTXIPlugin(void) {
 }
 
 // These variables will automatically populate the Default GUI
-// { "GUI LABEL", "GUI TOOLTIP", "VARIABLE TYPE",},
 static DefaultGUIModel::variable_t vars[] = {    
 	{ "Current Input (A)", "Current Input (A)", DefaultGUIModel::INPUT, }, 
 	{ "Voltage Output (V)", "Voltage Output (V)", DefaultGUIModel::OUTPUT, }, 
 	{ "Model Rate (Hz)", "Model Rate (Hz)", 
-	   DefaultGUIModel::PARAMETER | DefaultGUIModel::INTEGER,},
+	   DefaultGUIModel::PARAMETER | DefaultGUIModel::INTEGER, },
 	{ "gNa", "Sodium Conductance", 
-	   DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-	{ "INa", "Sodium Current", DefaultGUIModel::STATE ,} 
+	   DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE, },
+	{ "I_Na Scaling", "Sodium Conductance Scaling Factor", 
+	   DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE, },
+	{ "I_Ca_L Scaling", "L-type Calcium Conductance Scaling Factor", 
+	   DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE, },
+	{ "I_Ca_T Scaling", "T-type Calcium Conductance Scaling Factor", 
+	   DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE, },
+	{ "I_K1 Scaling", "IK1 Conductance Scaling Factor", 
+	   DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE, },
+	{ "I_Kr Scaling", "IKr Conductance Scaling Factor", 
+	   DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE, },
+	{ "I_Ks Scaling", "IKs Conductance Scaling Factor", 
+	   DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE, },
+	{ "I_Kp Scaling", "IKp Conductance Scaling Factor", 
+	   DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE, },
+	{ "I_p_Ca Scaling", "? Conductance Scaling Factor", 
+	   DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE, },
+	{ "I_up_bar Scaling", "JSERCA? Conductance Scaling Factor", 
+	   DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE, },
+	{ "INa", "Sodium Current", DefaultGUIModel::STATE , }
 };
 
 static size_t num_vars = sizeof(vars) / sizeof(DefaultGUIModel::variable_t);
@@ -95,40 +112,40 @@ void Faber_Rudy_2000::update(DefaultGUIModel::update_flags_t flag) {
 			// Model is reset to initial conditions when the modify button is 
 			// clicked published initial conditions
 			/* 
-			   GUINEA_PIG[0]= 0.000003; 
-			   GUINEA_PIG[1]= 0.999745;
-			   GUINEA_PIG[2] = 0.004503; 
-			   GUINEA_PIG[3]= 0.004503;
-			   GUINEA_PIG[4]= 0.000129; 
-			   GUINEA_PIG[5]= 0.000994; 
-			   GUINEA_PIG[6]= 0.994041;
-			   GUINEA_PIG[7]= 0.000838; 
-			   GUINEA_PIG[8]= 0.993336; 
-			   GUINEA_PIG[9]= 0.995484; 
-			   GUINEA_PIG[10]= 12.236437; //10;
-			   GUINEA_PIG[11]= 136.89149; //145;
-			   GUINEA_PIG[12]= 0.000079; //0.12E-3;
-			   GUINEA_PIG[13]=1.179991;
-			   GUINEA_PIG[14]=1.179991;
+				GUINEA_PIG[0] = 0.000003; 
+				GUINEA_PIG[1] = 0.999745;
+				GUINEA_PIG[2] = 0.004503; 
+				GUINEA_PIG[3] = 0.004503;
+				GUINEA_PIG[4] = 0.000129; 
+				GUINEA_PIG[5] = 0.000994; 
+				GUINEA_PIG[6] = 0.994041;
+				GUINEA_PIG[7] = 0.000838; 
+				GUINEA_PIG[8] = 0.993336; 
+				GUINEA_PIG[9] = 0.995484; 
+				GUINEA_PIG[10] = 12.236437; //10;
+				GUINEA_PIG[11] = 136.89149; //145;
+				GUINEA_PIG[12] = 0.000079; //0.12E-3;
+				GUINEA_PIG[13] = 1.179991;
+				GUINEA_PIG[14] = 1.179991;
 			*/
 
 			//Initial conditions after 300 WT HH beats at BCL = 1000ms
 			/* 
-			   GUINEA_PIG[0]= 0.000004;
-			   GUINEA_PIG[1]= 0.999723;
-			   GUINEA_PIG[2]= 0.005301;
-			   GUINEA_PIG[3]= 0.033794;
-			   GUINEA_PIG[4]= 0.000134;
-			   GUINEA_PIG[5]= 0.001020;
-			   GUINEA_PIG[6]= 0.993579;
-			   GUINEA_PIG[7]= 0.000878;
-			   GUINEA_PIG[8]= 0.992906;
-			   GUINEA_PIG[9]= 0.995226;
-			   GUINEA_PIG[10]= 13.454714;
-			   GUINEA_PIG[11]= 135.525797;
-			   GUINEA_PIG[12]= 0.000122;
-			   GUINEA_PIG[13]= 1.531388;
-			   GUINEA_PIG[14]=1.942522;
+				GUINEA_PIG[0] = 0.000004;
+				GUINEA_PIG[1] = 0.999723;
+				GUINEA_PIG[2] = 0.005301;
+				GUINEA_PIG[3] = 0.033794;
+				GUINEA_PIG[4] = 0.000134;
+				GUINEA_PIG[5] = 0.001020;
+				GUINEA_PIG[6] = 0.993579;
+				GUINEA_PIG[7] = 0.000878;
+				GUINEA_PIG[8] = 0.992906;
+				GUINEA_PIG[9] = 0.995226;
+				GUINEA_PIG[10] = 13.454714;
+				GUINEA_PIG[11] = 135.525797;
+				GUINEA_PIG[12] = 0.000122;
+				GUINEA_PIG[13] = 1.531388;
+				GUINEA_PIG[14] = 1.942522;
 			*/
 
 			// Initial conditions after 1100 beats at 1000ms BCL with new concentrations
@@ -154,6 +171,15 @@ void Faber_Rudy_2000::update(DefaultGUIModel::update_flags_t flag) {
 			// Update Parameters
 			modelRate = getParameter("Model Rate (Hz)").toInt();
 			gna = getParameter("gNa").toDouble();
+			scale_gna = getParameter("I_Na Scaling").toDouble();
+			scale_I_Ca_L = getParameter("I_Ca_L Scaling").toDouble();
+			scale_I_K1 = getParameter("I_K1 Scaling").toDouble();
+			scale_I_Kr = getParameter("I_Kr Scaling").toDouble();
+			scale_I_Ks = getParameter("I_Ks Scaling").toDouble();
+			scale_I_Kp = getParameter("I_Kp Scaling").toDouble();
+			scale_I_p_Ca = getParameter("I_p_Ca Scaling").toDouble();
+			scale_I_Ca_T = getParameter("I_Ca_T Scaling").toDouble();
+			scale_I_up_bar = getParameter("I_up_bar Scaling").toDouble();
 
 			DT = (1.0/modelRate)*1000; // Calculates DT (ms)
 
@@ -181,7 +207,18 @@ void Faber_Rudy_2000::initialize() {
 	z_Ca = 2;
 	z_K = 1;
 
-	//Cell Geometry
+	// Set scaling parameters
+	scale_gna = 1;
+	scale_I_Ca_L = 1;
+	scale_I_Ca_T = 1;
+	scale_I_Kr = 1;
+	scale_I_Ks = 1;
+	scale_I_K1 = 1;
+	scale_I_Kp = 1;
+	scale_I_p_Ca = 1;
+	scale_I_up_bar = 1; //?
+
+	// Cell Geometry
 	pi = 3.141592654;						
 	L = 0.01; //Length 100um (cm)
 	r = 0.0011; //Radius 11um (cm)
@@ -278,21 +315,21 @@ void Faber_Rudy_2000::initialize() {
 
 	//Initial conditions after 300 WT HH beats at BCL = 1000ms
 	/* 
-	   GUINEA_PIG[0]= 0.000004;
-	   GUINEA_PIG[1]= 0.999723;
-	   GUINEA_PIG[2]= 0.005301;
-	   GUINEA_PIG[3]= 0.033794;
-	   GUINEA_PIG[4]= 0.000134;
-	   GUINEA_PIG[5]= 0.001020;
-	   GUINEA_PIG[6]= 0.993579;
-	   GUINEA_PIG[7]= 0.000878;
-	   GUINEA_PIG[8]= 0.992906;
-	   GUINEA_PIG[9]= 0.995226;
-	   GUINEA_PIG[10]= 13.454714;
-	   GUINEA_PIG[11]= 135.525797;
-	   GUINEA_PIG[12]= 0.000122;
-	   GUINEA_PIG[13]= 1.531388;
-	   GUINEA_PIG[14]=1.942522;
+		GUINEA_PIG[0] = 0.000004;
+		GUINEA_PIG[1] = 0.999723;
+		GUINEA_PIG[2] = 0.005301;
+		GUINEA_PIG[3] = 0.033794;
+		GUINEA_PIG[4] = 0.000134;
+		GUINEA_PIG[5] = 0.001020;
+		GUINEA_PIG[6] = 0.993579;
+		GUINEA_PIG[7] = 0.000878;
+		GUINEA_PIG[8] = 0.992906;
+		GUINEA_PIG[9] = 0.995226;
+		GUINEA_PIG[10] = 13.454714;
+		GUINEA_PIG[11] = 135.525797;
+		GUINEA_PIG[12] = 0.000122;
+		GUINEA_PIG[13] = 1.531388;
+		GUINEA_PIG[14] = 1.942522;
 	*/
 
 	V = -83.4366;
@@ -403,6 +440,15 @@ void Faber_Rudy_2000::initialize() {
 	setState("INa", I_Na);
 	setParameter("Model Rate (Hz)", modelRate);
 	setParameter("gNa", gna);
+	setParameter("I_Na Scaling", scale_gna);
+	setParameter("I_Ca_L Scaling", scale_I_Ca_L);
+	setParameter("I_K1 Scaling", scale_I_K1);
+	setParameter("I_Kr Scaling", scale_I_Kr);
+	setParameter("I_Ks Scaling", scale_I_Ks);
+	setParameter("I_Kp Scaling", scale_I_Kp);
+	setParameter("I_p_Ca Scaling", scale_I_p_Ca);
+	setParameter("I_Ca_T Scaling", scale_I_Ca_T);
+	setParameter("I_up_bar Scaling", scale_I_up_bar);
 
 	update(MODIFY); // Update user input parameters and rate dependent variables
 }
@@ -461,7 +507,7 @@ void Faber_Rudy_2000::solve() {
 	m = mss-(mss-m)*fastEXP(-DT/mtau);
 	hh = hss-(hss-hh)*fastEXP(-DT/htau);
 	j = jss-(jss-j)*fastEXP(-DT/jtau);
-	I_Na = gna*m*m*m*hh*j*(V-E_Na);
+	I_Na = scale_gna * gna*m*m*m*hh*j*(V-E_Na);
 
 	//I_Ca_L
 	ad = d_inf/ tau_d;
@@ -474,7 +520,7 @@ void Faber_Rudy_2000::solve() {
 	f_Ca = 1/(1+ (Ca_in/Km_Ca));
 	// f_Ca = 1/(1+ pow((Ca_in/Km_Ca),1));
 	I_Ca_bar = P_Ca * (z_Ca*z_Ca) * ((V*F*F)/(R*T)) * (g_Ca_in * Ca_in * fastEXP((z_Ca*V*F)/(R*T)) - g_Ca_out * Ca_out)/(fastEXP((z_Ca*V*F)/(R*T))-1);
-	I_Ca_L = d * f * f_Ca * I_Ca_bar; 
+	I_Ca_L = scale_I_Ca_L * d * f * f_Ca * I_Ca_bar; 
 
 	//I_Ca_K
 	I_Ca_K_bar = P_K * (z_K*z_K) * ((V*F*F)/(R*T)) * (g_K_in * K_in * fastEXP((z_K*V*F)/(R*T)) - g_K_out * K_out)/(fastEXP((z_K*V*F)/(R*T))-1);
@@ -488,13 +534,13 @@ void Faber_Rudy_2000::solve() {
 	E_Ca_T = (R*T/(2*F))*log(Ca_out/Ca_in);
 	b = b_ss-(b_ss-b)*fastEXP(-DT/tau_b); 
 	g = g_ss-(g_ss-g)*fastEXP(-DT/tau_g); 
-	I_Ca_T = G_Ca_T*b*b*g*(V-E_Ca_T);
+	I_Ca_T = scale_I_Ca_T * G_Ca_T*b*b*g*(V-E_Ca_T);
 
 	//I_Kr
 	G_Kr = 0.02614*sqrt(K_out/5.4);
 	E_Kr = ((R*T)/F)*log(K_out/K_in);
 	xr = xr_ss - (xr_ss - xr)*fastEXP(-DT/tau_xr);
-	I_Kr = G_Kr*xr*r_Kr*(V-E_Kr);
+	I_Kr = scale_I_Kr * G_Kr*xr*r_Kr*(V-E_Kr);
 
 	//I_Ks
 	E_Ks = ((R*T)/F)*log((K_out+PR_NaK*Na_out)/(K_in+PR_NaK*Na_in));
@@ -504,7 +550,7 @@ void Faber_Rudy_2000::solve() {
 	tau_xs2 = 4*tau_xs1;
 	xs1 = xs1_ss-(xs1_ss-xs1)*fastEXP(-DT/tau_xs1);
 	xs2 = xs2_ss-(xs2_ss-xs2)*fastEXP(-DT/tau_xs2);
-	I_Ks = G_Ks*xs1*xs2*(V-E_Ks);
+	I_Ks = scale_I_Ks * G_Ks*xs1*xs2*(V-E_Ks);
 
 	//I_K1
 	G_K1=0.75*sqrt(K_out/5.4);
@@ -512,13 +558,13 @@ void Faber_Rudy_2000::solve() {
 	aK1=1.02/(1+fastEXP(0.2385*(V-E_K1-59.215)));
 	bK1=(0.49124*fastEXP(0.08032*(V-E_K1+5.476))+fastEXP(0.06175*(V-E_K1-594.31)))/(1+fastEXP(-0.5143*(V-E_K1+4.753)));
 	K1_s=aK1/(aK1+bK1);
-	I_K1=G_K1*K1_s*(V-E_K1);
+	I_K1=scale_I_K1 * G_K1*K1_s*(V-E_K1);
 
 	// At I_K1 only fastEXP in, APD increased to 211 ms
 
 	//I_Kp
 	E_Kp=(R*T/F)*log(K_out/K_in);	//Note: E_Kp = E_K1	
-	I_Kp=G_Kp*Kp*(V-E_Kp);		
+	I_Kp=scale_I_Kp * G_Kp*Kp*(V-E_Kp);		
 
 	//I_Na_Ca
 	I_Na_Ca = c1*fastEXP((gammas-1)*V*F/(R*T))*((fastEXP(V*F/(R*T))*Na_in*Na_in*Na_in*Ca_out-Na_out*Na_out*Na_out*Ca_in) /
@@ -530,7 +576,7 @@ void Faber_Rudy_2000::solve() {
 	//I_Na_K=I_Na_K_bar*f_Na_K*(1/(1+pow((Km_Na_i/Na_in),2)))*(K_out/(K_out+Km_Ko));
 
 	//I_p_Ca
-	I_p_Ca=I_p_Ca_bar*(Ca_in/(Km_p_Ca + Ca_in));
+	I_p_Ca=scale_I_p_Ca * I_p_Ca_bar*(Ca_in/(Km_p_Ca + Ca_in));
 
 	//I_Ca_b
 	E_Ca_N = ((R*T)/(2*F))*log(Ca_out/Ca_in);
@@ -564,7 +610,7 @@ void Faber_Rudy_2000::solve() {
 	I_leak = K_leak*Ca_nsr; 
 
 	//I_up
-	I_up = I_up_bar*(Ca_in/(Ca_in+Km_up));
+	I_up = scale_I_up_bar * I_up_bar*(Ca_in/(Ca_in+Km_up));
 
 	//I_rel
 	dCa_ion_total_new = (I_Ca_ion_total - Ca_in_total_old)/DT; 
