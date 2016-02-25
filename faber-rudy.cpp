@@ -36,23 +36,23 @@ static DefaultGUIModel::variable_t vars[] = {
 	   DefaultGUIModel::PARAMETER | DefaultGUIModel::INTEGER, },
 	{ "gNa", "Sodium Conductance", 
 	   DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE, },
-	{ "I_Na Scaling", "Sodium Conductance Scaling Factor", 
+	{ "Scale GNa", "Sodium Conductance Scaling Factor", 
 	   DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE, },
-	{ "I_Ca_L Scaling", "L-type Calcium Conductance Scaling Factor", 
+	{ "Scale GCaL", "L-type Calcium Conductance Scaling Factor", 
 	   DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE, },
-	{ "I_Ca_T Scaling", "T-type Calcium Conductance Scaling Factor", 
+	{ "Scale GCaT", "T-type Calcium Conductance Scaling Factor", 
 	   DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE, },
-	{ "I_K1 Scaling", "IK1 Conductance Scaling Factor", 
+	{ "Scale GK1", "IK1 Conductance Scaling Factor", 
 	   DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE, },
-	{ "I_Kr Scaling", "IKr Conductance Scaling Factor", 
+	{ "Scale GKr", "IKr Conductance Scaling Factor", 
 	   DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE, },
-	{ "I_Ks Scaling", "IKs Conductance Scaling Factor", 
+	{ "Scale GKs", "IKs Conductance Scaling Factor", 
 	   DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE, },
-	{ "I_Kp Scaling", "IKp Conductance Scaling Factor", 
+	{ "Scale GKp", "IKp Conductance Scaling Factor", 
 	   DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE, },
-	{ "I_p_Ca Scaling", "? Conductance Scaling Factor", 
+	{ "Scale IpCa", "? Conductance Scaling Factor", 
 	   DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE, },
-	{ "I_up_bar Scaling", "JSERCA? Conductance Scaling Factor", 
+	{ "Scale JSERCA", "JSERCA? Conductance Scaling Factor", 
 	   DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE, },
 	{ "INa", "Sodium Current", DefaultGUIModel::STATE , }
 };
@@ -171,15 +171,15 @@ void Faber_Rudy_2000::update(DefaultGUIModel::update_flags_t flag) {
 			// Update Parameters
 			modelRate = getParameter("Model Rate (Hz)").toInt();
 			gna = getParameter("gNa").toDouble();
-			scale_gna = getParameter("I_Na Scaling").toDouble();
-			scale_I_Ca_L = getParameter("I_Ca_L Scaling").toDouble();
-			scale_I_K1 = getParameter("I_K1 Scaling").toDouble();
-			scale_I_Kr = getParameter("I_Kr Scaling").toDouble();
-			scale_I_Ks = getParameter("I_Ks Scaling").toDouble();
-			scale_I_Kp = getParameter("I_Kp Scaling").toDouble();
-			scale_I_p_Ca = getParameter("I_p_Ca Scaling").toDouble();
-			scale_I_Ca_T = getParameter("I_Ca_T Scaling").toDouble();
-			scale_I_up_bar = getParameter("I_up_bar Scaling").toDouble();
+			scale_gna = getParameter("Scale GNa").toDouble();
+			scale_I_Ca_L = getParameter("Scale GCaL").toDouble();
+			scale_I_K1 = getParameter("Scale GK1").toDouble();
+			scale_I_Kr = getParameter("Scale GKr").toDouble();
+			scale_I_Ks = getParameter("Scale GKs").toDouble();
+			scale_I_Kp = getParameter("Scale GKp").toDouble();
+			scale_I_p_Ca = getParameter("Scale IpCa").toDouble();
+			scale_I_Ca_T = getParameter("Scale GCaT").toDouble();
+			scale_I_up_bar = getParameter("Scale JSERCA").toDouble();
 
 			DT = (1.0/modelRate)*1000; // Calculates DT (ms)
 
@@ -440,15 +440,15 @@ void Faber_Rudy_2000::initialize() {
 	setState("INa", I_Na);
 	setParameter("Model Rate (Hz)", modelRate);
 	setParameter("gNa", gna);
-	setParameter("I_Na Scaling", scale_gna);
-	setParameter("I_Ca_L Scaling", scale_I_Ca_L);
-	setParameter("I_K1 Scaling", scale_I_K1);
-	setParameter("I_Kr Scaling", scale_I_Kr);
-	setParameter("I_Ks Scaling", scale_I_Ks);
-	setParameter("I_Kp Scaling", scale_I_Kp);
-	setParameter("I_p_Ca Scaling", scale_I_p_Ca);
-	setParameter("I_Ca_T Scaling", scale_I_Ca_T);
-	setParameter("I_up_bar Scaling", scale_I_up_bar);
+	setParameter("Scale GNa", scale_gna);
+	setParameter("Scale GCaL", scale_I_Ca_L);
+	setParameter("Scale GK1", scale_I_K1);
+	setParameter("Scale GKr", scale_I_Kr);
+	setParameter("Scale GKs", scale_I_Ks);
+	setParameter("Scale GKp", scale_I_Kp);
+	setParameter("Scale IpCa", scale_I_p_Ca);
+	setParameter("Scale GCaT", scale_I_Ca_T);
+	setParameter("Scale JSERCA", scale_I_up_bar);
 
 	update(MODIFY); // Update user input parameters and rate dependent variables
 }
