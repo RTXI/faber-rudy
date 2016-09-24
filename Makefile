@@ -1,19 +1,17 @@
 PLUGIN_NAME = faber_rudy_2000
 
+RTXI_INCLUDES=/usr/local/lib/rtxi_includes
+
 HEADERS = faber-rudy.h \
-          include/RealTimeMath.h \
-          include/PowFast.hpp
+          ${RTXI_INCLUDES}/rtmath.h \
+          ${RTXI_INCLUDES}/powfast.hpp \
 
 SOURCES = faber-rudy.cpp \
-          include/RealTimeMath.cpp \
-          include/PowFast.cpp
+          ${RTXI_INCLUDES}/rtmath.cpp \
+          ${RTXI_INCLUDES}/powfast.cpp \
 
 LIBS =
 
 ### Do not edit below this line ###
 
 include $(shell rtxi_plugin_config --pkgdata-dir)/Makefile.plugin_compile
-
-extraclean:
-	rm -f include/*.o
-	rm -rf include/.libs
